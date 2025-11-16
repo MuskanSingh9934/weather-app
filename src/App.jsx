@@ -1,9 +1,17 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 
-import BGURL from "./assets/neon-bg.jpg";
+import LandingPage from "./pages/LandingPage";
 
 function App() {
-  return <div></div>;
+  return (
+    <div className="bg-black">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
 }
 
 export default App;
