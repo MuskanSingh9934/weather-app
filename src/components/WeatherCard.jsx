@@ -50,10 +50,10 @@ export default function WeatherCard({ name, data }) {
 					aria-expanded={expanded}
 					onClick={() => setExpanded((v) => !v)}
 				>
-					{expanded ? "Hide details" : "More details"}
+					{!expanded ? "Hide details" : "More details"}
 				</button>
 
-				{expanded && (
+				{!expanded && (
 					<div className="wa-grid-3" style={{ marginTop: 8 }}>
 						<div className="wa-card">
 							<strong>Sunrise</strong>

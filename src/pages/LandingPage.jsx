@@ -3,25 +3,75 @@ import { Link } from "react-router-dom";
 import "../styles/weather.css";
 import mockData from "../data/mockData";
 import WeatherCard from "../components/WeatherCard";
+import { fetchWeatherData, transformApiResponse } from "../utils/apiAdapter";
 
 
 export default function LandingPage() {
 	const [q, setQ] = useState("");
 	const [result, setResult] = useState(null);
 	const [message, setMessage] = useState("");
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState(null);
 
-	function handleSearch(e) {
+	async function handleSearch(e) {
 		e.preventDefault();
 		const term = (q || "").trim();
 		if (!term) {
 			setResult(null);
 			setMessage("Please enter a city or society to search.");
+			setError(null);
 			return;
 		}
-		// For now, always show "Green Meadows" regardless of input
-		const data = mockData["green meadows"];
-		setResult({ name: data.name, data });
-		setMessage(`Showing result for “${data.name}”`);
+
+		setLoading(true);
+		setError(null);
+		setResult(null);
+		setMessage("Searching...");
+
+		try {
+			// Get API configuration from environment variables
+			const API_KEY = import.meta.env.VITE_API_KEY;
+			const API_URL = import.meta.env.VITE_WEATHER_URL;
+
+			let data;
+
+			// Try to use API if configured
+			if (API_KEY && API_URL) {
+				// Call the API with the search term
+				data = await fetchWeatherData(term, API_KEY, API_URL);
+				setResult({ name: data.name, data });
+				setMessage(`Showing result for "${data.name}"`);
+			} else if (API_URL) {
+				// If only URL is provided (no key needed)
+				data = await fetchWeatherData(term, null, API_URL);
+				setResult({ name: data.name, data });
+				setMessage(`Showing result for "${data.name}"`);
+			} else {
+				// Fallback to mock data when API not configured
+				const mockKey = term.toLowerCase();
+				if (mockData[mockKey]) {
+					const mock = mockData[mockKey];
+					setResult({ name: mock.name, data: mock });
+					setMessage(`Showing result for "${mock.name}" (mock data)`);
+				} else {
+					// If not in mock data, show Green Meadows as fallback
+					const fallback = mockData["green meadows"];
+					setResult({ name: fallback.name, data: fallback });
+					setMessage(`Showing result for "${fallback.name}" (mock data)`);
+				}
+			}
+		} catch (err) {
+			console.error("Weather fetch error:", err);
+			setError(err.message || "Failed to fetch weather data");
+			setMessage("Error loading weather data");
+			
+			// Fallback to mock data on error
+			const fallback = mockData["green meadows"];
+			setResult({ name: fallback.name, data: fallback });
+			setMessage(`Showing mock data for "${fallback.name}" (API unavailable)`);
+		} finally {
+			setLoading(false);
+		}
 	}
 
 	return (
@@ -55,9 +105,19 @@ export default function LandingPage() {
 					</form>
 					<div aria-live="polite" className="wa-result-message">
 						{message}
+						{error && (
+							<span style={{ color: "var(--danger)", display: "block", marginTop: 4 }}>
+								{error}
+							</span>
+						)}
 					</div>
+					{loading && (
+						<div style={{ textAlign: "center", marginTop: 16, color: "var(--text-muted-light)" }}>
+							Loading weather data...
+						</div>
+					)}
 					<div style={{ marginTop: 16, display: "flex", justifyContent: "center" }}>
-						{result && (
+						{result && !loading && (
 							<div style={{ width: "min(720px, 100%)" }}>
 								<WeatherCard name={result.name} data={result.data} />
 							</div>
