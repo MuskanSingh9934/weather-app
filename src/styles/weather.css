@@ -1,0 +1,260 @@
+/* Minimal, responsive styles for the weather alert app components. */
+
+:root {
+	--bg: #0b0c10;
+	--panel: #151822;
+	--muted: #aab3c5;
+	--text: #eaf0ff;
+	--accent: #4da3ff;
+	--danger: #ff6b6b;
+	/* Light mode colors for landing page */
+	--bg-light: #f5f5f5;
+	--text-dark: #1a1a1a;
+	--text-muted-light: #6b7280;
+}
+
+/* Ensure full-height background and consistent canvas */
+html, body, #root {
+	height: 100%;
+	background: var(--bg);
+}
+
+.wa-container {
+	max-width: 960px;
+	margin: 0 auto;
+	padding: 24px 16px;
+	color: var(--text);
+	font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+	min-height: 100vh; /* span the viewport */
+	display: flex;
+	justify-content: center;
+	align-items: flex-start; /* start slightly below top for breathing room */
+	padding-top: 48px;
+}
+
+/* Brand top bar like the reference */
+.wa-brand {
+	position: sticky;
+	top: 0;
+	z-index: 10;
+	width: 100%;
+	/* background: linear-gradient(180deg, rgba(10, 16, 40, 0.9) 0%, rgba(10, 16, 40, 0.6) 100%); */
+	backdrop-filter: blur(6px);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+.wa-brand-inner {
+	max-width: 1100px;
+	margin: 0 auto;
+	padding: 12px 16px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.wa-brand-name {
+	font-weight: 700;
+	font-size: 1.1rem;
+	color: var(--text-dark);
+}
+
+/* Hero section similar to reference */
+.wa-hero {
+	max-width: 1100px;
+	margin: 24px auto 0;
+	padding: 28px 20px 48px;
+	width: 100%;
+}
+.wa-hero-surface {
+	/* background: linear-gradient(180deg, rgba(9, 12, 28, 0.9) 0%, rgba(9, 12, 28, 0.7) 100%); */
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	border-radius: 22px;
+	padding: 32px 24px;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+.wa-hero-title {
+	font-size: clamp(2rem, 6vw, 3.5rem);
+	line-height: 1.1;
+	font-weight: 800;
+	text-align: center;
+	margin-bottom: 18px;
+	color: var(--text-dark);
+}
+.wa-hero-sub {
+	text-align: center;
+	color: var(--text-muted-light);
+	margin-bottom: 20px;
+}
+.wa-hero-search {
+	display: flex;
+	justify-content: center;
+	margin-top: 8px;
+}
+.wa-pill {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	background: #0f1220;
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 999px;
+	padding: 10px 12px;
+	width: min(640px, 100%);
+}
+.wa-pill input {
+	flex: 1;
+	background: transparent;
+	color: var(--text);
+	border: none;
+	outline: none;
+	font-size: 1rem;
+}
+.wa-pill button {
+	background: linear-gradient(180deg, #1c2745 0%, #12172d 100%);
+	color: var(--text);
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 999px;
+	padding: 10px 16px;
+	cursor: pointer;
+}
+
+.wa-card {
+	background: var(--panel);
+	border: 1px solid rgba(255, 255, 255, 0.06);
+	border-radius: 12px;
+	padding: 16px;
+	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.wa-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 16px;
+}
+
+.wa-title {
+	font-size: 1.25rem;
+	font-weight: 600;
+}
+
+.wa-muted {
+	color: var(--muted);
+	font-size: 0.95rem;
+}
+
+.wa-row {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 12px;
+}
+
+.wa-grid-3 {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 12px;
+}
+
+.wa-input,
+.wa-button {
+	border-radius: 10px;
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	background: #0f1220;
+	color: var(--text);
+	padding: 10px 12px;
+	font-size: 1rem;
+}
+
+.wa-input:focus {
+	outline: 2px solid var(--accent);
+}
+
+.wa-button {
+	background: linear-gradient(180deg, #1c2745 0%, #12172d 100%);
+	cursor: pointer;
+}
+
+.wa-button:hover {
+	filter: brightness(1.1);
+}
+
+.wa-button-danger {
+	background: linear-gradient(180deg, #492329 0%, #2a1215 100%);
+	border-color: rgba(255, 255, 255, 0.08);
+}
+
+.wa-error {
+	color: var(--danger);
+	margin-top: 8px;
+	font-size: 0.95rem;
+}
+
+.wa-divider {
+	height: 1px;
+	background: rgba(255, 255, 255, 0.08);
+	margin: 12px 0;
+}
+
+.wa-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	background: rgba(77, 163, 255, 0.1);
+	border: 1px solid rgba(77, 163, 255, 0.2);
+	color: var(--text);
+	padding: 6px 10px;
+	border-radius: 999px;
+	font-size: 0.95rem;
+}
+
+.wa-icon {
+	font-size: 2rem;
+}
+
+.wa-details {
+	margin-top: 8px;
+}
+
+.wa-details-toggle {
+	text-decoration: underline;
+	color: var(--accent);
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	font-size: 0.95rem;
+	padding: 0;
+}
+
+.wa-week {
+	display: grid;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+	gap: 8px;
+	margin-top: 8px;
+}
+
+.wa-week-item {
+	background: #0f1220;
+	border: 1px solid rgba(255, 255, 255, 0.06);
+	border-radius: 10px;
+	padding: 8px;
+	text-align: center;
+}
+
+/* Light background result message */
+.wa-result-message {
+	color: var(--text-muted-light);
+	margin-top: 12px;
+	text-align: center;
+	font-size: 0.95rem;
+}
+
+@media (max-width: 640px) {
+	.wa-row {
+		grid-template-columns: 1fr;
+	}
+	.wa-grid-3 {
+		grid-template-columns: 1fr;
+	}
+	.wa-week {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
+
+
